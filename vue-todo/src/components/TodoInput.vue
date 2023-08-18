@@ -5,23 +5,37 @@
     <span class="addContainer" v-on:click="addTodo">
       <i class="fa-solid fa-plus addBtn"></i>
     </span>
+    <TodoModal v-if="showModal" @close="showModal = false">
+        <!--
+      you can use custom content here to overwrite
+      default content
+    -->
+        <h3 slot="header">
+          경고!
+        </h3>
+    </TodoModal>
   </div>
 </template>
 
 <script>
+import AlertModal from './common/AlertModal.vue'
+
 export default {
   data : function(){
     return {
-      newTodoItem : ""
+      newTodoItem : "",
+      showModal: false
     }
   },
   methods: {
     addTodo: function(){
       if(this.newTodoItem !== ''){
-        var obj = {completed: false , item:this.newTodoItem};
-        localStorage.setItem(this.newTodoItem, JSON.stringify(obj));
+        // this.$emit('이벤트 이름', '인자1,인자2,...')
+        this.$emit('addTodoItem', this.newTodoItem)
         this.clearInput();
         // window.location.reload();
+      } else { 
+        this.showModal = !this.showModal;
       }
       // 로컬 스토리지 키,벨류 저장(개발자도구 - Application에 Local Stroage 탭에 목록 선택 후 테스트)
     },
@@ -29,6 +43,10 @@ export default {
       //텍스트 안의 값 지우기(add 버튼 눌렀을 때)
       this.newTodoItem = '';
     }
+  },
+  // 현 컴포넌트의 하위 컴포넌트 만들기(AlertModal.vue가 TodoInput.vue의 하위 컴포넌트가 되는 것)
+  components: {
+    'TodoModal': AlertModal
   }
 }
 </script>
