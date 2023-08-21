@@ -10,9 +10,22 @@
       you can use custom content here to overwrite
       default content
     -->
+    <!-- AlertModal.vue에 있는 것을 재정의 하고있다 -->
         <h3 slot="header">
           경고!
+          <!-- @click은 v-on:click 과 같다. showModal이 false여야 창이 닫힘 -->
+          <span @click="showModal = false">
+            <i class="closeModalBtn fa-regular fa-circle-xmark"></i>
+          </span>
         </h3>
+
+        <div slot="body">
+          무언가를 입력하세요.
+        </div>
+
+        <div slot="footer">
+          copy right
+        </div>
     </TodoModal>
   </div>
 </template>
@@ -21,14 +34,14 @@
 import AlertModal from './common/AlertModal.vue'
 
 export default {
-  data : function(){
+  data (){
     return {
       newTodoItem : "",
       showModal: false
     }
   },
   methods: {
-    addTodo: function(){
+    addTodo(){
       if(this.newTodoItem !== ''){
         // this.$emit('이벤트 이름', '인자1,인자2,...')
         this.$emit('addTodoItem', this.newTodoItem)
@@ -36,10 +49,11 @@ export default {
         // window.location.reload();
       } else { 
         this.showModal = !this.showModal;
+        // false인 showModal을 true 값으로 바꿔주는 것
       }
       // 로컬 스토리지 키,벨류 저장(개발자도구 - Application에 Local Stroage 탭에 목록 선택 후 테스트)
     },
-    clearInput: function(){
+    clearInput(){
       //텍스트 안의 값 지우기(add 버튼 눌렀을 때)
       this.newTodoItem = '';
     }
@@ -75,5 +89,8 @@ export default {
   .addBtn {
     color: white;
     vertical-align: middle;
+  }
+  .closeModalBtn{
+    color: #42b983;
   }
 </style>

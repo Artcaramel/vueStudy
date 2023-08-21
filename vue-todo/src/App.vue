@@ -15,24 +15,25 @@ import TodoInput from './components/TodoInput.vue'
 import TodoList from './components/TodoList.vue'
 import TodoFooter from './components/TodoFooter.vue'
 
-
+// export default는 한 번만 사용가능(Modules)
 export default {
-  data: function(){
+  // data: function() 했던 것을 data() 로만 모두 축약했음 
+  data(){
     return {
       todoItems: []
     }
   },
   methods: {
-    addOneItem : function(todoItem){
-      var obj = {completed: false , item:todoItem};
+    addOneItem(todoItem){
+      const obj = {completed: false , item:todoItem};
       localStorage.setItem(todoItem, JSON.stringify(obj));
       this.todoItems.push(obj);
     },
-    removeOneItem: function(todoItem,index){
+    removeOneIte(todoItem,index){
       localStorage.removeItem(todoItem.item);
       this.todoItems.splice(index, 1); // 화면에서 해당 index 삭제
     },
-    toggleOneItem: function(todoItem,index){
+    toggleOneIte(todoItem,index){
       // todoItem.completed = !todoItem.completed; 와 같은 동작이지만 아래 코드가 더 컴포넌트에서 사용하는 데이터를 이용하는게 좋음
       this.todoItems[index].completed = ! this.todoItems[index].completed 
       window.console.log(index) // 인덱스를 따로 사용 안해서 이런 식으로 강제 사용 처리해야함
@@ -40,15 +41,15 @@ export default {
       localStorage.removeItem(todoItem.item); 
       localStorage.setItem(todoItem.item, JSON.stringify(todoItem));
     },
-    clearAllItems: function(){
+    clearAllItems(){
       localStorage.clear();
       this.todoItems = [];
     }
   },
-  created: function(){
+  created(){
     // 인스턴스가 생성되자마자(사이트 키자마자) 발동됨
     if(localStorage.length > 0){
-      for(var i=0; i<localStorage.length; i++){
+      for(let i=0; i<localStorage.length; i++){
         // if(localStorage.key(i) !== 'loglevel:webpack-dev-server'){
           this.todoItems.push(JSON.parse(localStorage.getItem(localStorage.key(i))))
         // }
@@ -56,10 +57,10 @@ export default {
     }
   },
   components: {
-    'TodoHeader': TodoHeader,
-    'TodoInput' : TodoInput,
-    'TodoList' : TodoList,
-    'TodoFooter' : TodoFooter
+    TodoHeader,
+    TodoInput,
+    TodoList,
+    TodoFooter
   }
 }
 </script>
