@@ -2,7 +2,7 @@
   <div>
     <!-- ul>li*3 3개 li 만들기 단축기-->
     <transition-group name="list" tag="ul">
-      <li v-for="(todoItem,index) in propsdata" v-bind:key="todoItem.item" class="shadow">
+      <li v-for="(todoItem,index) in this.$store.state.todoItems" v-bind:key="todoItem.item" class="shadow">
         <span v-on:click="toggleComplete(todoItem,index)">
           <i class="fa-solid fa-check checkBtn" v-bind:class="{checkBtnCompleted: todoItem.completed}"></i>
         </span>
@@ -17,14 +17,15 @@
 
 <script>
 export default {
-  props: ['propsdata'],
   methods: {
     removeTodo(todoItem,index){
       // console.log(todoItem,index);
-      this.$emit('removeItem', todoItem,index)
+      this.$store.commit('removeOneItem', {todoItem,index}); // {todoItem,index} => const obj = {todoItem,index} 를 줄인 것
+      // this.$emit('removeItem', todoItem,index)
     },
     toggleComplete(todoItem,index){
-      this.$emit('toggleItem',todoItem,index)
+      // this.$emit('toggleItem',todoItem,index)
+      this.$store.commit('toggleOneItem', {todoItem,index});
     }
   }
 }
