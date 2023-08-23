@@ -15,5 +15,12 @@
       "dom.iterable",
       "scripthost"
     ]
-  }
+  },
+  "eslint.workingDirectories": [
+
+    {"mode": "auto"}
+    
+    ],
 }
+
+
